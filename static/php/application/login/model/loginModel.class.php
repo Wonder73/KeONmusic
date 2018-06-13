@@ -3,7 +3,7 @@
       //检查有没有该邮件的用户
       public function checkMail($mail){
         $sql = "select COUNT(*) as count from user where mail='{$mail}'";
-        
+
         return $this->db->fetchRow($sql)['count'];
       }
       //检查有没有改用户名的用户
@@ -21,7 +21,13 @@
       }
       //获取用户信息
       public function getUserInfo($username){
-        $sql = "select username,password from user where username='{$username}'";
+        $sql = "select id,username,password from user where username='{$username}'";
+        return $this->db->fetchRow($sql);
+      }
+
+      //检测用户信息
+      public function checkInfo($userId){
+        $sql = "select username,password from user where id='{$userId}'";
         return $this->db->fetchRow($sql);
       }
 

@@ -6,7 +6,7 @@
         <div class="maximization_btn" @click="setMenuShow"></div>
       </div>
       <div class="topImg">
-        <div class="img"></div>
+        <div class="img"><img src="../assets/topImg.jpg"></div>
         <h2>KeON ID</h2>
         <h1>Wonder</h1>
       </div><!--topImg-->
@@ -73,6 +73,10 @@ export default {
       border-radius:70px;
       box-shadow:1px 1px 10px #333;
       background:#f5f6fa;
+      img{
+        width:100%;
+        height:auto;
+      }
     }
     h2{
       margin:20px 0 8px 0;

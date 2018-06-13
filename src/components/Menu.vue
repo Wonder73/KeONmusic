@@ -1,8 +1,8 @@
 <template lang="html">
-  <transition name="slide">
+  <transition name="slideMenu">
     <div class="menu">
     <ul class="menu_top">
-      <li><span>首页</span></li>
+      <li><span><a href="./index.html">首页</a></span></li>
       <li>分区</li>
       <li>歌单</li>
       <li>MV</li>
@@ -60,6 +60,9 @@ export default {
       color:#eee;
       cursor:pointer;
       transition:background-color 0.2s linear;
+      a{
+        color:#eee;
+      }
       &:hover{
           background-color:rgba(0,0,0,.2);
       }
@@ -68,14 +71,14 @@ export default {
 }/*.menu*/
 
 //动画效果
-.slide-enter-active,.slide-leave-active{
+.slideMenu-enter-active,.slideMenu-leave-active{
   transition:all .5s linear;
 }
-.slide-enter,.slide-leave-to{
+.slideMenu-enter,.slideMenu-leave-to{
   transform:translateY(-100%);
   opacity:0;
 }
-.slide-leave,.slide-enter-to{
+.slideMenu-leave,.slideMenu-enter-to{
   transform:translateY('0');
   opacity:1;
 }

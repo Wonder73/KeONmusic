@@ -1,9 +1,9 @@
 <template lang="html">
   <div :class="{menu:true,menu_hover:!isPhone()}" :style="menuStyle" v-show="!showMinimize">
     <div class="topImg">
-      <div class="img"></div>
+      <div class="img"><img src="../assets/topImg.jpg"></div>
       <h2>KeON ID</h2>
-      <h1>Wonder</h1>
+      <h1><a href="./home.html">Inriye</a></h1>
     </div><!--topImg-->
     <div class="info">
       <p>发布了136首音乐</p>
@@ -108,6 +108,10 @@ export default {
       border-radius:100px;
       box-shadow:1px 1px 10px #333;
       background:#f5f6fa;
+      img{
+        width:100%;
+        height:auto;
+      }
     }
     h2{
       margin:20px 0 8px 0;
@@ -118,6 +122,9 @@ export default {
       font-size:2.6rem;
       color:#fff;
       text-align:center;
+      a{
+        color:#fff;
+      }
     }
   }/*topImg*/
   .info{

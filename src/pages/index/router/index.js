@@ -6,16 +6,17 @@ import Reg from '@/components/Reg'
 Vue.use(Router)
 
 export default new Router({
-  routes: [
+  routes:[
     {
-      path: '/Login',
-      name: 'Login',
-      component: Login
+      path:'/Login',
+      name:'Login',
+      component:Login
     },
     {
       path:'/Login/Reg',
       name:'Reg',
       component:Reg
     }
-  ]
+  ],
+  linkActiveClass:'active'
 })

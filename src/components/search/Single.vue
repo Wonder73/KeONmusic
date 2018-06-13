@@ -14,7 +14,7 @@
       </li>
       <li v-for="(value,index) of searchData" :key="index">
         <ul>
-          <li><div class="img_name"><div class="img"><img :src="value.img"></div><p>{{value.single}}<span style="color:#999;">{{value.subtitle}}</span></p></div><div class="operation"><i class="fa fa-play" @click="play(index)"></i><i class="fa fa-star"></i><i class="fa fa-upload"></i><i class="fa fa-share-alt"></i></div></li>
+          <li><div class="img_name"><a :href="'./detail.html?singleMid='+value.singleMid " target="_black"><div class="img"><img :src="value.img"></div><p>{{value.single}}<span style="color:#999;">{{value.subtitle}}</span></p></a></div><div class="operation"><i class="fa fa-play" @click="play(index)"></i><i class="fa fa-star"></i><i class="fa fa-upload"></i><i class="fa fa-share-alt"></i></div></li>
           <li>{{value.singer}}</li>
           <li>{{value.singer}}</li>
           <li>1,234万次</li>
@@ -177,7 +177,7 @@ export default {
             display:flex;
             justify-content:space-between;
             align-items:center;
-            div.img_name{
+            div.img_name a{
               display:flex;
               align-items:center;
               .img{

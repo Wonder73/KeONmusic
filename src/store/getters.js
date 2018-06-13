@@ -18,6 +18,10 @@ const getters = {
 	},
 	musicIndex2(){
 		return state.musicIndex2;
+	},
+
+	checkLogin(){
+		return state.checkLogin;
 	}
 }
 
