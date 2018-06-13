@@ -96,9 +96,6 @@ export default {
           headers:{'Content-Type':'application/x-www-form-urlencoded'}
         }).then((res)=>{
           var data = res.data;
-          // console.log(data);
-          // console.log(typeof data);
-          // console.log(typeof data == 'object');
           document.getElementById('login_btn').disabled=false;
           if(data == '1'){
             this.errNum++;
@@ -110,6 +107,7 @@ export default {
             this.errInfo = '';
             localStorage.setItem('username',data.username);
             localStorage.setItem('password',data.password);
+            localStorage.setItem('userId',data.id);
             this.close();
           }
         });
@@ -173,7 +171,7 @@ export default {
   width:100%;
   height:100%;
   background:rgba(51,51,51,0.6);
-  z-index:101;
+  z-index:1010;
   .login_transparent{
     overflow:hidden;
     width:500px;

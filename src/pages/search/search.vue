@@ -7,7 +7,7 @@
 			<router-link to="/MV" tag="li">MV</router-link>
 			<router-link to="/Lyric" tag="li">歌词</router-link>
 		</ul>
-		<Header></Header>
+		<Header :fixed="true"></Header>
 		<InfoMenu></InfoMenu><!--左边用户信息栏-->
     <Minimize></Minimize>
 		<router-view></router-view>

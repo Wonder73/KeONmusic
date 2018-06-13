@@ -14,6 +14,7 @@ const state = {
 	audioInfo:[],     //音乐信息
 	audioMid:[],
 	musicIndex2:0,
+	checkLogin:false,   //是否登录成功
 }
 
 export default state;

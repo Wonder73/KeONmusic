@@ -1,11 +1,11 @@
 <template lang="html">
-  <div id="header">
+  <div id="header" :style="[headerStyle]">
     <div class="musicShow_btn"><img src="../assets/smallLogo.gif" v-show="!play_pause" @click="player = !player"><img src="../assets/smallLogo.png" v-show="play_pause" @click="player = !player"></div>
     <div class="logo"><img src="../assets/logo.png" alt=""></div>
     <transition name="slide">
       <div class="player" v-show="player || screenWidth >= 800 ">
         <div class="music_info">
-          <div class="img"><a href="./index.html"><img :src="(audioInfo[musicIndex].img?audioInfo[musicIndex].img:'static/img/logo.aea432e.gif')"></a></div>
+          <div class="img"><a href="./player.html"><img :src="(audioInfo[musicIndex].img?audioInfo[musicIndex].img:'static/img/logo.aea432e.gif')"></a></div>
           <div class="info">
             <p>{{audioInfo[musicIndex].name?audioInfo[musicIndex].name:'轻音音乐'}}-{{audioInfo[musicIndex].singer?audioInfo[musicIndex].singer:'轻音音乐'}}</p>
             <div class="list_time">
@@ -44,33 +44,46 @@
     <div class="search_vest"  @mouseover="searchDowm=true" @mouseout="searchDowm = false">
       <div class="search">
         <i class="microphone fa fa-microphone fa-2x"></i>
-        <input type="text" name="search" placeholder="搜索内容" autocomplete="off" v-model="search">
+        <input type="text" name="search" placeholder="搜索内容" autocomplete="off" v-model="search" @focus="searchFocus = true" @blur="searchFocus = false"  @keydown.enter="jumpSearch">
         <span class="search_btn"><a :href="href">搜索</a></span>
       </div><!-- search 搜索栏 -->
-      <div class="search_down" v-show="search && searchDowm">
+      <div class="search_down" v-show="search && (searchDowm || searchFocus)">
         <ul class="category">
           <li v-for="(value,index) in searchData">
 
-              <div class="cate_left" v-if="value.name != '歌手'">
-                <p>{{value.name}}</p>
-              </div>
-              <ul class="content_right" v-if="value.name != '歌手'">
-                <li v-for="(value,index) of value.itemlist"><p>{{value.name}}-{{value.singer}}</p><div class="operation"><img src="../assets/list.png"><i class="fa fa-play" @click="getMusic(value.albummid,value.mid)"></i></div></li>
-              </ul>
+            <div class="cate_left" v-if="value.name == '专辑'">
+              <p>{{value.name}}</p>
+            </div>
+            <ul class="content_right" v-if="value.name == '专辑'">
+              <li v-for="(v,index) of value.itemlist"><p>{{v.name}}-{{v.singer}}</p><div class="operation"><img src="../assets/list.png"><i class="fa fa-play" @click="getMusic(v.albummid,v.mid)" v-if="value.name == '单曲'"></i></div></li>
+            </ul>
+            <div class="cate_left" v-if="value.name == 'MV'">
+              <p>{{value.name}}</p>
+            </div>
+            <ul class="content_right" v-if="value.name == 'MV'">
+              <li v-for="(v,index) of value.itemlist"><p>{{v.name}}-{{v.singer}}</p><div class="operation"><img src="../assets/list.png"><i class="fa fa-play" @click="getMusic(v.albummid,v.mid)" v-if="value.name == '单曲'"></i></div></li>
+            </ul>
+            <div class="cate_left" v-if="value.name == '单曲'">
+              <p>{{value.name}}</p>
+            </div>
+            <ul class="content_right" v-if="value.name == '单曲'">
+              <li v-for="(v,index) of value.itemlist"><p><a :href="'./detail.html?singleMid='+v.mid " target="_black">{{v.name}}-{{v.singer}}</a></p><div class="operation"><img src="../assets/list.png"><i class="fa fa-play" @click="getMusic(v.albummid,v.mid)" v-if="value.name == '单曲'"></i></div></li>
+            </ul>
 
-              <div class="cate_left" v-if="value.name == '歌手'">
-                <p>用户</p>
-              </div>
-              <ul class="content_right" v-if="value.name == '歌手'">
-                <li v-for="(value,index) of value.itemlist"><p>{{value.singer}}</p><div class="operation"><i class="fa fa-heart"></i></div></li>
-              </ul>
+            <div class="cate_left" v-if="value.name == '歌手'">
+              <p>用户</p>
+            </div>
+            <ul class="content_right" v-if="value.name == '歌手'">
+              <li v-for="(value,index) of value.itemlist"><p>{{value.singer}}</p><div class="operation"><i class="fa fa-heart"></i></div></li>
+            </ul>
           </li>
         </ul>
       </div><!--serach_down-->
     </div><!--search_vest是搜索栏的马甲-->
 
     <div class="login_reg">
-        <router-link to="/Login" tag="p" class="login_btn">登录</router-link>
+        <router-link to="/Login" tag="p" class="login_btn" v-show="!checkLogin">登录</router-link>
+        <img src="../assets/topImg.jpg" alt="" v-show="checkLogin">
         <div class="menu_btn" @click="menu = !menu"><span></span><span></span></div>
     </div><!-- login_reg -->
     <Menu v-show="menu"></Menu>
@@ -88,11 +101,20 @@ export default {
     audio.addEventListener('timeupdate',this.current);
 
     this.$store.commit('localAudio');
+    if(this.fixed){
+      this.headerStyle = {
+        'position':'fixed',
+        'top':0,
+        'left':0,
+        'boxShadow':'0  2px 7px rgba(0,0,0,0.3)'
+      }
+    }
   },
   data(){
     return {
       search:'',              //搜索内容的双向绑定
       searchDowm:false,      // 搜索内容的显示
+      searchFocus:false,
       searchData:{},          //后台获取的搜索数据
       menu:false,
       play_pause:true,        //播放或暂停按钮的显示
@@ -102,11 +124,13 @@ export default {
       currentTime:0,          //歌曲播放位置的时间戳
       volume:50,         //音量
       musicIndex:0,      //播放哪一首
-      href:''
+      href:'',
+      headerStyle:{'position':'relative','background':'none'}
     }
   },
+  props:['fixed'],
   computed:{
-    ...mapGetters(['audioMid','audioInfo','musicIndex2']),//保存音乐的id //播放列表
+    ...mapGetters(['audioMid','audioInfo','musicIndex2','checkLogin']),//保存音乐的id //播放列表
     totalTime(){           //格式化时间戳
       if(this.duration == this.duration && this.duration){
         var minute = Math.floor(this.duration/60);
@@ -175,6 +199,10 @@ export default {
     Menu
   },
   methods:{
+    //跳转搜索链接
+    jumpSearch(){
+      window.open(this.href);
+    },
     play(){      //播放
       this.play_pause=false;
       document.getElementById('audio').play();
@@ -301,11 +329,6 @@ export default {
     },
     //音乐下一曲
     nextMusic(e){
-      //单曲循环
-      if(this.playStyle%3 == 2){
-        document.getElementById('audio').currentTime = 0;
-        return;
-      }
       //随机播放
       if(this.playStyle%3 == 0){
         while(true){
@@ -318,6 +341,11 @@ export default {
         }
       }
       if(e.type == 'ended'){
+        //单曲循环
+        if(this.playStyle%3 == 2){
+          document.getElementById('audio').currentTime = 0;
+          return;
+        }
         setTimeout(()=>{
           if(++this.musicIndex>=this.audioInfo.length){
             this.musicIndex = 0;
@@ -334,11 +362,6 @@ export default {
     },
     //音乐上一曲
     prevMusic(){
-      //单曲循环
-      if(this.playStyle%3 == 2){
-        document.getElementById('audio').currentTime = 0;
-        return;
-      }
       //随机播放
       if(this.playStyle%3 == 0){
         while(true){
@@ -410,14 +433,11 @@ export default {
 #header{
   display:flex;
   flex-flow:row;
-  position:fixed;
-  top:0;
-  left:0;
   width:100%;
   height:60px;
   background:url(../assets/right-top_background.png) no-repeat top right/100% fixed,
               radial-gradient(#fafafa, #eeeeee) no-repeat center center/100% fixed;
-  box-shadow:0  2px 7px rgba(0,0,0,0.3);
+  z-index:10;
   /* logo */
   .logo {
       flex:1 0;
@@ -703,6 +723,9 @@ export default {
               &:hover .operation{visibility:visible;}
               p{
                 margin-left:10px;
+                a{
+                  color:#666;
+                }
               }
               .operation{
                 display:flex;
@@ -752,6 +775,11 @@ export default {
       justify-content: flex-end;
       align-items: center;
       flex-shrink:0;
+      img{
+        width:40px;
+        height:40px;
+        border-radius:40px;
+      }
       //登录
       p.login_btn{
         width:60px;

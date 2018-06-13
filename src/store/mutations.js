@@ -1,3 +1,5 @@
+import axios from 'axios';
+import qs from 'qs';
 const mutations = {
   setShowMinimize(state,flag){       //更新迷你菜单 的显示
     state.showMinimize = flag;
@@ -62,6 +64,25 @@ const mutations = {
   localAudio(state){
     state.audioInfo = JSON.parse(localStorage.getItem('musicInfo'))?JSON.parse(localStorage.getItem('musicInfo')):[];
     state.audioMid = JSON.parse(localStorage.getItem('audioMid'))?JSON.parse(localStorage.getItem('audioMid')):[];
+  },
+  //验证用户登录成功
+  checkLogin(state){
+    var username = localStorage.getItem('username');
+    var password = localStorage.getItem('password');
+    var userId = localStorage.getItem('userId');
+    axios({
+      method:'post',
+      url:'./static/php/index.php?p=login&c=login&a=checkLogin',
+      data:qs.stringify({'userId':userId,'username':username,'password':password}),
+      headers:{'Content-Type':'application/x-www-form-urlencoded'}
+    }).then((res)=>{
+      var data = res.data;
+      if(data === '有效'){
+        state.checkLogin = true;
+      }else{
+        state.checkLogin = false;
+      }
+    });
   }
 }
 

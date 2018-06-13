@@ -83,4 +83,19 @@ use PHPMailer\PHPMailer\SMTP;
               return 'Message could not be sent. Mailer Error: '.$mail->ErrorInfo;
           }
         }
+
+        //验证是否登录
+        public function checkLoginAction(){
+          $loginModel = new loginModel();
+          $username = isset($_POST['username'])?trim($_POST['username']):'';
+          $password = isset($_POST['password'])?trim($_POST['password']):'';
+          $userId = isset($_POST['userId'])?trim($_POST['userId']):'';
+          // print_r($_POST);
+          $info = $loginModel -> checkInfo($userId);
+          if($username === $info['username'] && $password === $info['password']){
+            echo '有效';
+          }else{
+            echo '无效';
+          }
+        }
     }

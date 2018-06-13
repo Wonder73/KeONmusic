@@ -6,6 +6,9 @@ import getters from './getters.js';
 import actions from './actions.js';
 import mutations from './mutations.js';
 
+import detail from './detail/detail.js'
+import comment from './comment/comment.js'
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -14,6 +17,7 @@ export default new Vuex.Store({
 	actions,
 	mutations,
 	modules:{
-
+		detail,
+		comment
 	}
 })
