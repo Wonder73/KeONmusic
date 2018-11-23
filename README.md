@@ -1,25 +1,4 @@
-<<<<<<< HEAD
-﻿# vue的多页面应用模板
 
-> A Vue.js project
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 =======
 # KeON音乐
 
@@ -32,15 +11,29 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 #### 安装教程
 
-1. xxxx
-2. xxxx
-3. xxxx
+1.把项目文件夹发到服务器根目录下，并启动服务器
+2. 打开文件夹
+3. 在根目录下打开命令行窗口，运行：npm start 启动前端页面
 
 #### 使用说明
 
-1. xxxx
-2. xxxx
-3. xxxx
+1. 导入数据库
+2. 修改数据库配置：static\php\application\config
+3. 基本用户:wonder wonde.123
+
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+np
 
 #### 参与贡献
 
