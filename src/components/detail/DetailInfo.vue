@@ -8,6 +8,7 @@
       <p>作词：{{obj.ci}}</p>
       <p>作曲：{{obj.qu}}</p>
       <p>编曲：{{obj.bqu}}</p>
+      <p>编曲：{{obj.bqu}}1</p>
       <p>语种：{{obj.lan}}</p>
       <p>曲风：{{obj.genre}}</p>
       <p>发布时间：{{obj.aDate}}</p>
